@@ -18,7 +18,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "expo.guinness.frontend",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDu_-UEQ_GjMTCEFa31786YzptbsRCSOgs"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +32,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9c39f3f0-1075-4015-a057-8d88bb3bd26c"
+      }
     }
   }
 }
