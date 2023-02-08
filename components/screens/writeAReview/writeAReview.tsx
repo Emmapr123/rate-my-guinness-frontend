@@ -4,43 +4,8 @@ import StyledButton from "../../atoms/button/button";
 import RatingIconArray from "../../molecules/ratingIconArray/ratingIconArray";
 import Layout from "../../templates/layout/layout";
 import { styles } from "./styles";
-
-interface ValidationErrorType {
-  ratingError?: string | undefined;
-  titleError?: string | undefined;
-  descriptionError?: string | undefined;
-}
-
-const validateForm = (
-  rating: number,
-  title: string,
-  description: string
-): ValidationErrorType => {
-  let ratingError;
-  let titleError;
-  let descriptionError;
-
-  if (rating < 1) {
-    ratingError = "Your Rating must be at least a 1, it can`t be THAT bad";
-  } else if (rating === 10) {
-    ratingError =
-      "Are you sure about that? Not a single pint can beat this one";
-  }
-
-  if (!title) {
-    titleError = "Don't forget to add a title!";
-  }
-
-  if (!description) {
-    descriptionError = "Don't forget to add a description!";
-  }
-
-  return {
-    ratingError,
-    titleError,
-    descriptionError,
-  };
-};
+import { ValidationErrorType } from "./types";
+import { validateForm } from "./validation";
 
 export default function WriteAReview({ navigation }: { navigation: any }) {
   const arr = Array.from({ length: 10 }, (_, index) => index + 1);
@@ -54,14 +19,17 @@ export default function WriteAReview({ navigation }: { navigation: any }) {
   });
 
   const validateAndSave = () => {
-    setFormValidation(validateForm(rating, title, description));
+    const validation = validateForm(rating, title, description);
 
     if (
-      !formValidation.ratingError &&
-      !formValidation.titleError &&
-      !formValidation.descriptionError
-    )
-      navigation.navigate("Restaurant");
+      !validation.ratingError &&
+      !validation.titleError &&
+      !validation.descriptionError
+    ) {
+      navigation.navigate("Restaurant")
+    } else {
+      setFormValidation(validation);
+    }
   };
 
   return (
@@ -83,8 +51,14 @@ export default function WriteAReview({ navigation }: { navigation: any }) {
       }
     >
       <RatingIconArray {...{ rating, setRating, arr }} />
+      {formValidation.ratingError && (
+        <Text style={{ color: "red" }}>{formValidation.ratingError}</Text>
+      )}
       <View style={styles.textInputContainer}>
         <Text style={styles.textInputTitle}>Title</Text>
+        {formValidation.titleError && (
+          <Text style={{ color: "red" }}>{formValidation.titleError}</Text>
+        )}
         <TextInput
           style={styles.textInputTitle}
           onChangeText={(e) => setTitle(e)}
@@ -92,7 +66,12 @@ export default function WriteAReview({ navigation }: { navigation: any }) {
         />
       </View>
       <View style={styles.textInputContainer}>
-        <Text style={styles.textInputTitle}>Review</Text>
+        <Text style={styles.textInputTitle}>Description</Text>
+        {formValidation.descriptionError && (
+          <Text style={{ color: "red" }}>
+            {formValidation.descriptionError}
+          </Text>
+        )}
         <TextInput
           style={styles.largeTextInput}
           multiline={true}

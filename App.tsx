@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import ShowMapView from "./components/templates/mapView/mapView";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import RestaurantScreen from "./components/screens/restaurantScreen/restaurantScreen";
 import WriteAReview from "./components/screens/writeAReview/writeAReview";
+import LoginScreen from "./components/screens/login/login";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
   const navOptions = {
     headerStyle: {
       backgroundColor: "#f4511e",
@@ -18,34 +20,38 @@ export default function App() {
     },
   } as const;
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Rate my Guinness"
-          component={ShowMapView}
-          options={{
-            title: "Rate my Guinness",
-            ...navOptions,
-          }}
-        />
-        <Stack.Screen
-          name="Restaurant"
-          component={RestaurantScreen}
-          options={{
-            ...navOptions,
-            headerBackTitleVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="Write a review"
-          component={WriteAReview}
-          options={{
-            title: "Write a review",
-            ...navOptions,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  if (!loggedIn) {
+    return <LoginScreen {...{ setLoggedIn }} />;
+  } else {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Rate my Guinness"
+            component={ShowMapView}
+            options={{
+              title: "Rate my Guinness",
+              ...navOptions,
+            }}
+          />
+          <Stack.Screen
+            name="Restaurant"
+            component={RestaurantScreen}
+            options={{
+              ...navOptions,
+              headerBackTitleVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Write a review"
+            component={WriteAReview}
+            options={{
+              title: "Write a review",
+              ...navOptions,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 }

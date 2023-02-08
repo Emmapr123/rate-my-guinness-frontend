@@ -5,10 +5,12 @@ export default function StyledButton({
   onPress,
   title,
   variant = "primary",
+  fontVariant = "medium",
 }: {
   onPress: any;
   title: string;
   variant?: "primary" | "secondary";
+  fontVariant?: string;
 }) {
   return (
     <Pressable
@@ -20,8 +22,12 @@ export default function StyledButton({
       <Text
         style={
           variant === "primary"
-            ? styles.primaryButtonText
-            : styles.secondaryButtonText
+            ? fontVariant === "medium"
+              ? styles.primaryButtonTextMedium
+              : styles.primaryButtonTextSmall
+            : fontVariant === "medium"
+            ? styles.secondaryButtonTextMedium
+            : styles.secondaryButtonTextSmall
         }
       >
         {title}

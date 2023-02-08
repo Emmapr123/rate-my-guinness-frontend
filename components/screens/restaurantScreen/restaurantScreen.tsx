@@ -18,7 +18,7 @@ export default function RestaurantScreen({ navigation }: { navigation: any }) {
     >
       <Text style={styles.header}>The Tap Inn</Text>
       <View style={styles.restaurantInformation}>
-        <View style={{ display: "flex", flexDirection: "row" }}>
+        <View style={styles.ratingContainer}>
           <Text>Rating: 5/10</Text>
         </View>
         <Text>Reviews: 1</Text>

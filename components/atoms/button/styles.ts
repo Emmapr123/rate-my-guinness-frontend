@@ -10,10 +10,17 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     display: "flex",
     alignSelf: "center",
+    width: '100%'
+    // paddingVertical: 8,
+    // paddingHorizontal: 32,
   },
-  primaryButtonText: {
+  primaryButtonTextMedium: {
     color: "white",
     fontSize: 25,
+  },
+  primaryButtonTextSmall: {
+    color: "white",
+    fontSize: 16,
   },
   secondaryButton: {
     backgroundColor: "white",
@@ -26,9 +33,16 @@ export const styles = StyleSheet.create({
     borderColor: "#f4511e",
     borderWidth: 0.5,
     alignItems: "center",
+    width: '100%'
+    // paddingVertical: 8,
+    // paddingHorizontal: 32,
   },
-  secondaryButtonText: {
+  secondaryButtonTextMedium: {
     color: "#f4511e",
     fontSize: 25,
-  }
+  },
+  secondaryButtonTextSmall: {
+    color: "#f4511e",
+    fontSize: 16,
+  },
 });

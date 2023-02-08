@@ -21,7 +21,7 @@ export default function RatingIconArray({
           <TouchableOpacity
             key={index}
             onPress={() => setRating(i)}
-            style={{ width: "9%" }}
+            style={{ width: "9%", paddingBottom: 16 }}
           >
             <Image source={rating >= i ? fullIcon : emptyIcon} />
           </TouchableOpacity>
