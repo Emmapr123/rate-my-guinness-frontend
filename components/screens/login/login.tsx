@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { View, Text, SafeAreaView, TextInput } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
 import { styles } from "./styles";
 
-function LoginWithSocialsButtons({ setScreen }: { setScreen: any }) {
+function LoginWithSocialsButtons({ navigation }: { navigation: any}) {
   return (
     <>
       <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>
@@ -41,53 +40,21 @@ function LoginWithSocialsButtons({ setScreen }: { setScreen: any }) {
           variant="secondary"
           fontVariant="small"
           title="Continue with Email"
-          onPress={() => setScreen(true)}
+          onPress={() => navigation.navigate("continueWithEmail")}
         />
       </View>
     </>
   );
 }
 
-function SignUpWithEmail({ setLoggedIn }: { setLoggedIn: any }) {
-  return (
-    <View style={{ flex: 1 }}>
-      <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Name</Text>
-      <TextInput placeholder="John Doe" />
-      <Spacer />
-      <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Birthday</Text>
-      <TextInput placeholder="02-02-1998" />
-      <Spacer />
-      <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Email</Text>
-      <TextInput placeholder="example@email.com" />
-      <Spacer />
-      <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Password</Text>
-      <TextInput placeholder="********" />
-      <Spacer />
-      <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>
-        Confirm Password
-      </Text>
-      <TextInput placeholder="*********" />
-      <View style={{ height: 56, marginTop: 40 }}>
-        <StyledButton title="Save" onPress={() => setLoggedIn(true)} />
-      </View>
-    </View>
-  );
-}
-
-export default function LoginScreen({ setLoggedIn }: { setLoggedIn: any }) {
-  const [screen, setScreen] = useState("login");
-
+export default function LoginScreen({ navigation }: { navigation: any}) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text style={{ fontSize: 32, paddingVertical: 16 }}>
           The Guinness advisor
         </Text>
-        {screen === "login" ? (
-          <LoginWithSocialsButtons {...{ setScreen }} />
-        ) : (
-          <SignUpWithEmail {...{ setLoggedIn }} />
-        )}
+        <LoginWithSocialsButtons {...{navigation}} />
       </View>
     </SafeAreaView>
   );

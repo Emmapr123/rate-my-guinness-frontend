@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     fontSize: 40,
+    color: 'gold'
   },
   textInputContainer: {
     paddingTop: 16,
@@ -14,9 +15,11 @@ export const styles = StyleSheet.create({
   largeTextInput: {
     fontSize: 16,
     height: 100,
+    color: 'white'
   },
   textInputTitle: {
     fontSize: 16,
+    color: 'white'
   },
   buttonContainer: {
     display: "flex",

@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     padding: 8,
     marginVertical: 10,
     borderRadius: 10,
+    borderColor: "white",
   },
   account: {
     justifyContent: "space-between",
@@ -15,5 +16,14 @@ export const styles = StyleSheet.create({
   },
   name: {
     fontWeight: "bold",
+    fontSize: 16,
+    color: 'gold'
+  },
+  title: {
+    fontWeight: "bold",
+    color: "white",
+  },
+  description: {
+    color: "white",
   },
 });

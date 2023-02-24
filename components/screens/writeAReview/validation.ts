@@ -2,8 +2,8 @@ import { ValidationErrorType } from "./types";
 
 export const validateForm = (
   rating: number,
-  title: string,
-  description: string
+  title?: string,
+  description?: string
 ): ValidationErrorType => {
   let ratingError;
   let titleError;

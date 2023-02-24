@@ -3,3 +3,8 @@ export interface ValidationErrorType {
   titleError?: string | undefined;
   descriptionError?: string | undefined;
 }
+
+export interface CreateReview {
+  title?: string;
+  description?: string;
+}
