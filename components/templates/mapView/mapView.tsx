@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import MapView, { Marker } from "react-native-maps";
+import MapView from "react-native-maps";
 import { View } from "react-native";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { styles } from "./styles";
 import { firebase } from "../../../firebase";
 import { decode, encode } from "base-64";
+import AccountSVG from "../../atoms/accountSVG/accountSVG";
+import PubMarker from "../../atoms/pubMarker/pubMarker";
+import { MAP_REGION, Pub } from "./types";
+import IconButton from "../../atoms/iconButton/iconButton";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -13,20 +17,8 @@ if (!global.btoa) {
 if (!global.atob) {
   global.atob = decode;
 }
-export interface Pub {
-  id: string;
-  name: string | undefined;
-  location: GeolocationCoordinates;
-}
 
 export default function ShowMapView({ navigation }: { navigation: any }) {
-  const [mapRegion, setMapRegion] = useState({
-    latitude: 51.50986,
-    longitude: 0.118092,
-    latitudeDelta: 1,
-    longitudeDelta: 0.5,
-  });
-
   const [pubs, setPubs] = useState<Pub[]>([]);
   const pubRef = firebase.firestore().collection("pubs");
 
@@ -47,27 +39,20 @@ export default function ShowMapView({ navigation }: { navigation: any }) {
 
   return (
     <View style={styles.container}>
-      <MapView provider={PROVIDER_GOOGLE} style={styles.map} region={mapRegion}>
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+        region={MAP_REGION}
+      >
         {pubs.map((pub) => {
-          return (
-            <Marker
-              key={pub.name}
-              title={pub.name}
-              coordinate={{
-                latitude: pub.location.latitude,
-                longitude: pub.location.longitude,
-              }}
-              onPress={() =>
-                navigation.navigate("Restaurant", {
-                  name: pub.name,
-                  id: pub.id,
-                })
-              }
-              style={{ backgroundColor: "black" }}
-            />
-          );
+          return <PubMarker key={pub.id} pub={pub} navigation={navigation} />;
         })}
       </MapView>
+      <IconButton
+        styles={styles.button}
+        navigate={() => navigation.navigate("Account")}
+        icon={<AccountSVG height={50} width={50} color={"black"} />}
+      />
     </View>
   );
 }

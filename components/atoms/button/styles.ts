@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     display: "flex",
     alignSelf: "center",
     width: '100%',
-    maxHeight: 72
+    maxHeight: 56
   },
   primaryButtonTextMedium: {
     color: "black",
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     borderWidth: 5,
     alignItems: "center",
     width: '100%',
-    maxHeight: 72
+    maxHeight: 56
   },
   secondaryButtonTextMedium: {
     color: "gold",

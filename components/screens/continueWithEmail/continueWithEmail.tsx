@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, ActivityIndicator } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
@@ -7,8 +7,11 @@ import { firebase } from "../../../firebase";
 import { User } from "../signUpWithEmail/types";
 import { validateForm } from "./validateForm";
 import { ValidationErrorType } from "./types";
+import { UserContext } from "../../../App";
 
 export default function ContinueWithEmail({ navigation }: { navigation: any }) {
+  // @ts-ignore
+  const { signIn } = React.useContext(UserContext);
   const [user, setUser] = useState<User>({});
   const [loading, setLoading] = useState(false);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
@@ -26,12 +29,10 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
         // @ts-ignore
         .signInWithEmailAndPassword(user.email, user.password)
         .then((userCredential) => {
-          // Signed in
-          navigation.navigate("Rate my Guinness");
-          // ...
+          signIn(userCredential.user?.uid);
         })
         .catch((error) => {
-          console.log("emmalog error", error);
+          console.log("error", error);
         });
     } else {
       setFormValidation(validation);
@@ -58,7 +59,7 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
       }
     >
       <Text style={{ fontSize: 32, paddingVertical: 16, color: "gold" }}>
-        The Guinness advisor
+        Lorcan's app
       </Text>
       {loading ? (
         <ActivityIndicator size="large" color="gold" />

@@ -5,5 +5,6 @@ export interface Review {
     description: string;
     pubId: string;
     user: string;
+    createdAt: string;
   }
   

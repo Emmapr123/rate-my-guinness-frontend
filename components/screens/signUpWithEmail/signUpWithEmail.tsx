@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { View, Text, TextInput } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
@@ -6,8 +6,12 @@ import Layout from "../../templates/layout/layout";
 import { validateForm } from "./validateForm";
 import { firebase } from "../../../firebase";
 import { User, ValidationErrorType } from "./types";
+import { UserContext } from "../../../App";
 
 export function SignUpWithEmail({ navigation }: { navigation: any }) {
+  // @ts-ignore
+  const { signUp } = useContext(UserContext);
+
   const [user, setUser] = useState<User>({});
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
@@ -48,9 +52,7 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
             username: user.username,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           });
-        })
-        .then(() => {
-          navigation.navigate("Rate my Guinness");
+          signUp(userCredential.user?.uid);
         })
         .catch((error) => {
           console.log("emmalog error", error);
@@ -64,11 +66,15 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
     <Layout
       footer={<StyledButton title="Save" onPress={() => validateAndSave()} />}
     >
-      <Text style={{ fontSize: 32, paddingVertical: 16, color: 'gold' }}>
-        The Guinness advisor
+      <Text style={{ fontSize: 32, paddingVertical: 16, color: "gold" }}>
+      Lorcan's app
       </Text>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Name</Text>
+        <Text
+          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
+        >
+          Name
+        </Text>
         {formValidation.nameError && (
           <Text style={{ color: "red" }}>{formValidation.nameError}</Text>
         )}
@@ -80,11 +86,15 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
             })
           }
           placeholderTextColor="gray"
-          style={{ color: 'white' }}
+          style={{ color: "white" }}
           placeholder="John Doe"
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Birthday</Text>
+        <Text
+          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
+        >
+          Birthday
+        </Text>
         {formValidation.birthdayError && (
           <Text style={{ color: "red" }}>{formValidation.birthdayError}</Text>
         )}
@@ -92,10 +102,14 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           onChangeText={(e) => setUser({ ...user, birthday: e })}
           placeholder="YYYY-MM-DD"
           placeholderTextColor="gray"
-          style={{ color: 'white' }}
+          style={{ color: "white" }}
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Email</Text>
+        <Text
+          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
+        >
+          Email
+        </Text>
         {formValidation.emailError && (
           <Text style={{ color: "red" }}>{formValidation.emailError}</Text>
         )}
@@ -103,10 +117,14 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           onChangeText={(e) => setUser({ ...user, email: e })}
           placeholder="example@email.com"
           placeholderTextColor="gray"
-          style={{ color: 'white' }}
+          style={{ color: "white" }}
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Password</Text>
+        <Text
+          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
+        >
+          Password
+        </Text>
         {formValidation.passwordError && (
           <Text style={{ color: "red" }}>{formValidation.passwordError}</Text>
         )}
@@ -115,10 +133,12 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           onChangeText={(e) => setUser({ ...user, password: e })}
           placeholder="********"
           placeholderTextColor="gray"
-          style={{ color: 'white' }}
+          style={{ color: "white" }}
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>
+        <Text
+          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
+        >
           Confirm Password
         </Text>
         {formValidation.confirmPasswordError && (
@@ -131,7 +151,7 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           onChangeText={(e) => setConfirmPassword(e)}
           placeholder="*********"
           placeholderTextColor="gray"
-          style={{ color: 'white' }}
+          style={{ color: "white" }}
         />
       </View>
     </Layout>

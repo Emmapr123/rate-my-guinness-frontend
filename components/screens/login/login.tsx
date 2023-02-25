@@ -7,13 +7,13 @@ function LoginWithSocialsButtons({ navigation }: { navigation: any}) {
   return (
     <>
       <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>
-        Welcome to the guinness advisor!
+        Welcome to Lorcan's app!
       </Text>
       <Text>
         Find your nearest quality pint of guinness, and leave reviews for pubs
         that you have visited!
       </Text>
-      <View style={{ flex: 1, paddingBottom: 40, paddingTop: 32, justifyContent: 'flex-end' }}>
+      <View style={{ flex: 1, paddingTop: 32, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
         {/* <StyledButton
           variant="secondary"
           fontVariant="small"
@@ -51,7 +51,7 @@ export default function LoginScreen({ navigation }: { navigation: any}) {
     <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={styles.container}>
         <Text style={{ fontSize: 32, paddingVertical: 16 }}>
-          The Guinness advisor
+        Lorcan's app
         </Text>
         <LoginWithSocialsButtons {...{navigation}} />
       </View>

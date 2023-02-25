@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, ActivityIndicator } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import RatingIconArray from "../../molecules/ratingIconArray/ratingIconArray";
 import Layout from "../../templates/layout/layout";
@@ -18,6 +18,7 @@ export default function WriteAReview({
   const { id, name } = route.params;
   const arr = Array.from({ length: 10 }, (_, index) => index + 1);
   const [review, setReview] = useState<CreateReview>({});
+  const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(0);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     ratingError: undefined,
@@ -28,24 +29,23 @@ export default function WriteAReview({
   const reviewRef = firebase.firestore().collection("reviews");
 
   const validateAndSave = () => {
-    const validation = validateForm(
-      rating,
-      review.title,
-      review.description
-    );
+    const validation = validateForm(rating, review.title, review.description);
 
     if (
       !validation.ratingError &&
       !validation.titleError &&
       !validation.descriptionError
     ) {
+      setLoading(true);
       reviewRef.add({
         ...review,
         rating,
         user: firebase.auth().currentUser?.uid,
         pubId: id,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
       navigation.navigate("Restaurant", { id, name });
+      setLoading(false);
     } else {
       setFormValidation(validation);
     }
@@ -69,38 +69,44 @@ export default function WriteAReview({
         </>
       }
     >
-      <RatingIconArray {...{ rating, setRating, arr }} />
-      {formValidation.ratingError && (
-        <Text style={{ color: "red" }}>{formValidation.ratingError}</Text>
+      {loading ? (
+        <ActivityIndicator color={"gold"} size="large" />
+      ) : (
+        <>
+          <RatingIconArray {...{ rating, setRating, arr }} />
+          {formValidation.ratingError && (
+            <Text style={{ color: "red" }}>{formValidation.ratingError}</Text>
+          )}
+          <View style={styles.textInputContainer}>
+            <Text style={styles.textInputTitle}>Title</Text>
+            {formValidation.titleError && (
+              <Text style={{ color: "red" }}>{formValidation.titleError}</Text>
+            )}
+            <TextInput
+              style={styles.textInputTitle}
+              placeholderTextColor="gray"
+              onChangeText={(e) => setReview({ ...review, title: e })}
+              placeholder="Give this bad boy a catchy title"
+            />
+          </View>
+          <View style={styles.textInputContainer}>
+            <Text style={styles.textInputTitle}>Description</Text>
+            {formValidation.descriptionError && (
+              <Text style={{ color: "red" }}>
+                {formValidation.descriptionError}
+              </Text>
+            )}
+            <TextInput
+              style={styles.largeTextInput}
+              multiline={true}
+              numberOfLines={8}
+              placeholderTextColor="gray"
+              onChangeText={(e) => setReview({ ...review, description: e })}
+              placeholder="Tell us, how was your guinness? Spare no detail!"
+            />
+          </View>
+        </>
       )}
-      <View style={styles.textInputContainer}>
-        <Text style={styles.textInputTitle}>Title</Text>
-        {formValidation.titleError && (
-          <Text style={{ color: "red" }}>{formValidation.titleError}</Text>
-        )}
-        <TextInput
-          style={styles.textInputTitle}
-          placeholderTextColor="gray"
-          onChangeText={(e) => setReview({ ...review, title: e })}
-          placeholder="Give this bad boy a catchy title"
-        />
-      </View>
-      <View style={styles.textInputContainer}>
-        <Text style={styles.textInputTitle}>Description</Text>
-        {formValidation.descriptionError && (
-          <Text style={{ color: "red" }}>
-            {formValidation.descriptionError}
-          </Text>
-        )}
-        <TextInput
-          style={styles.largeTextInput}
-          multiline={true}
-          numberOfLines={8}
-          placeholderTextColor="gray"
-          onChangeText={(e) => setReview({ ...review, description: e })}
-          placeholder="Tell us, how was the guinness? Spare no detail!"
-        />
-      </View>
     </Layout>
   );
 }

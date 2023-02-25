@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import Divider from "../../atoms/divider/divider";
-import PrimaryButton from "../../atoms/button/button";
 import ReadReview from "../../molecules/readReview/readReviewComponent";
 import Layout from "../../templates/layout/layout";
 import { styles } from "./styles";
 import { firebase } from "../../../firebase";
 import { Review } from "./types";
+import StyledButton from "../../atoms/button/button";
 
 const getAverageRating = (reviews: Review[]): number => {
   let total = 0;
   reviews.forEach((r) => {
     total += r.rating;
   });
-  return total / reviews.length;
+  return Math.round(total / reviews.length);
 };
 
 export default function RestaurantScreen({
@@ -26,7 +26,6 @@ export default function RestaurantScreen({
   const { name, id } = route.params;
 
   const [review, setReview] = useState<Review[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const reviewRef = firebase.firestore().collection("reviews");
 
   useEffect(() => {
@@ -42,19 +41,24 @@ export default function RestaurantScreen({
           description,
           pubId,
           user,
+          createdAt: doc.data().createdAt,
         });
       });
-      setLoading(false);
       setReview(newReviews);
     });
   }, []);
 
   const averageRating: number = getAverageRating(review);
+  review.sort(function (a, b) {
+    // Turn your strings into dates, and then subtract them
+    // to get a value that is either negative, positive, or zero.
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
 
   return (
     <Layout
       footer={
-        <PrimaryButton
+        <StyledButton
           title="Write a review"
           onPress={() => navigation.navigate("Write a review", { id, name })}
         />
@@ -72,12 +76,12 @@ export default function RestaurantScreen({
       <Divider />
       <Text style={styles.textBold}>Reviews</Text>
       <View>
-        {review.length ? (
+        {review.length > 0 ? (
           review.map((r) => {
             return <ReadReview review={r} key={r.id} />;
           })
         ) : (
-          <Text>Be the first to write a review</Text>
+          <Text style={{ color: "white" }}>Be the first person to write a review</Text>
         )}
       </View>
     </Layout>
