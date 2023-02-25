@@ -25,14 +25,12 @@ export const validateForm = (
   if (birthday && new Date(birthday) > subtractYears(new Date(), 18)) {
     birthdayError = "You must be 18 or older to use this app";
   }
+  // TODO: Add email validation regex
   if (!email) {
     emailError = "Please enter an email";
   }
   if (!password) {
     passwordError = "Please enter a password";
-  }
-  if (!confirmPassword) {
-    confirmPasswordError = "Please confirm your password";
   }
   if (
     (password && password.length < 8) ||

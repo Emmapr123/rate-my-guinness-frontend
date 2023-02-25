@@ -64,11 +64,11 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
     <Layout
       footer={<StyledButton title="Save" onPress={() => validateAndSave()} />}
     >
-      <Text style={{ fontSize: 32, paddingVertical: 16 }}>
+      <Text style={{ fontSize: 32, paddingVertical: 16, color: 'gold' }}>
         The Guinness advisor
       </Text>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Name</Text>
+        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Name</Text>
         {formValidation.nameError && (
           <Text style={{ color: "red" }}>{formValidation.nameError}</Text>
         )}
@@ -79,28 +79,34 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
               username: e,
             })
           }
+          placeholderTextColor="gray"
+          style={{ color: 'white' }}
           placeholder="John Doe"
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Birthday</Text>
+        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Birthday</Text>
         {formValidation.birthdayError && (
           <Text style={{ color: "red" }}>{formValidation.birthdayError}</Text>
         )}
         <TextInput
           onChangeText={(e) => setUser({ ...user, birthday: e })}
           placeholder="YYYY-MM-DD"
+          placeholderTextColor="gray"
+          style={{ color: 'white' }}
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Email</Text>
+        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Email</Text>
         {formValidation.emailError && (
           <Text style={{ color: "red" }}>{formValidation.emailError}</Text>
         )}
         <TextInput
           onChangeText={(e) => setUser({ ...user, email: e })}
           placeholder="example@email.com"
+          placeholderTextColor="gray"
+          style={{ color: 'white' }}
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Password</Text>
+        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>Password</Text>
         {formValidation.passwordError && (
           <Text style={{ color: "red" }}>{formValidation.passwordError}</Text>
         )}
@@ -108,9 +114,11 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           secureTextEntry={true}
           onChangeText={(e) => setUser({ ...user, password: e })}
           placeholder="********"
+          placeholderTextColor="gray"
+          style={{ color: 'white' }}
         />
         <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>
+        <Text style={{ fontWeight: "bold", paddingVertical: 8, color: 'white' }}>
           Confirm Password
         </Text>
         {formValidation.confirmPasswordError && (
@@ -122,6 +130,8 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           secureTextEntry={true}
           onChangeText={(e) => setConfirmPassword(e)}
           placeholder="*********"
+          placeholderTextColor="gray"
+          style={{ color: 'white' }}
         />
       </View>
     </Layout>

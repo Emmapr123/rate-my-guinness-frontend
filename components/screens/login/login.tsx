@@ -13,9 +13,8 @@ function LoginWithSocialsButtons({ navigation }: { navigation: any}) {
         Find your nearest quality pint of guinness, and leave reviews for pubs
         that you have visited!
       </Text>
-      <View style={{ flex: 1, paddingBottom: 40 }}>
-        <View style={{ height: 32 }} />
-        <StyledButton
+      <View style={{ flex: 1, paddingBottom: 40, paddingTop: 32, justifyContent: 'flex-end' }}>
+        {/* <StyledButton
           variant="secondary"
           fontVariant="small"
           title="Continue with Apple"
@@ -35,7 +34,7 @@ function LoginWithSocialsButtons({ navigation }: { navigation: any}) {
           title="Continue with Meta"
           onPress={() => console.log("emmalog ")}
         />
-        <Spacer />
+        <Spacer /> */}
         <StyledButton
           variant="secondary"
           fontVariant="small"
@@ -49,7 +48,7 @@ function LoginWithSocialsButtons({ navigation }: { navigation: any}) {
 
 export default function LoginScreen({ navigation }: { navigation: any}) {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={styles.container}>
         <Text style={{ fontSize: 32, paddingVertical: 16 }}>
           The Guinness advisor

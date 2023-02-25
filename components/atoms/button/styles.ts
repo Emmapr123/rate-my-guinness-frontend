@@ -10,9 +10,8 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     display: "flex",
     alignSelf: "center",
-    width: '100%'
-    // paddingVertical: 8,
-    // paddingHorizontal: 32,
+    width: '100%',
+    maxHeight: 72
   },
   primaryButtonTextMedium: {
     color: "black",
@@ -34,7 +33,8 @@ export const styles = StyleSheet.create({
     borderColor: "gold",
     borderWidth: 5,
     alignItems: "center",
-    width: '100%'
+    width: '100%',
+    maxHeight: 72
   },
   secondaryButtonTextMedium: {
     color: "gold",

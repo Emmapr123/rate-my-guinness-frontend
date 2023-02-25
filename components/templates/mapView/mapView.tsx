@@ -4,7 +4,15 @@ import { View } from "react-native";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { styles } from "./styles";
 import { firebase } from "../../../firebase";
+import { decode, encode } from "base-64";
 
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
 export interface Pub {
   id: string;
   name: string | undefined;

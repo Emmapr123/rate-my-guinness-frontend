@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, ActivityIndicator } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
 import Layout from "../../templates/layout/layout";
@@ -10,6 +10,7 @@ import { ValidationErrorType } from "./types";
 
 export default function ContinueWithEmail({ navigation }: { navigation: any }) {
   const [user, setUser] = useState<User>({});
+  const [loading, setLoading] = useState(false);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     emailError: undefined,
     passwordError: undefined,
@@ -19,6 +20,7 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
     const validation = validateForm(user.email, user.password);
 
     if (!validation?.emailError && !validation?.passwordError) {
+      setLoading(true);
       firebase
         .auth()
         // @ts-ignore
@@ -55,35 +57,51 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
         </>
       }
     >
-      <Text style={{ fontSize: 32, paddingVertical: 16 }}>
+      <Text style={{ fontSize: 32, paddingVertical: 16, color: "gold" }}>
         The Guinness advisor
       </Text>
-      <View style={{ flex: 1 }}>
-        <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Email</Text>
-        {formValidation.emailError && (
-          <Text style={{ color: "red" }}>{formValidation.emailError}</Text>
-        )}
-        <TextInput
-          onChangeText={(e) =>
-            setUser({
-              ...user,
-              email: e,
-            })
-          }
-          placeholder="example@email.com"
-        />
-        <Spacer />
-        <Text style={{ fontWeight: "bold", paddingVertical: 8 }}>Password</Text>
-        {formValidation.passwordError && (
-          <Text style={{ color: "red" }}>{formValidation.passwordError}</Text>
-        )}
-        <TextInput
-          secureTextEntry={true}
-          onChangeText={(e) => setUser({ ...user, password: e })}
-          placeholder="********"
-        />
-        <Spacer />
-      </View>
+      {loading ? (
+        <ActivityIndicator size="large" color="gold" />
+      ) : (
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
+          >
+            Email
+          </Text>
+          {formValidation.emailError && (
+            <Text style={{ color: "red" }}>{formValidation.emailError}</Text>
+          )}
+          <TextInput
+            onChangeText={(e) =>
+              setUser({
+                ...user,
+                email: e,
+              })
+            }
+            placeholderTextColor="gray"
+            style={{ color: "white" }}
+            placeholder="example@email.com"
+          />
+          <Spacer />
+          <Text
+            style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
+          >
+            Password
+          </Text>
+          {formValidation.passwordError && (
+            <Text style={{ color: "red" }}>{formValidation.passwordError}</Text>
+          )}
+          <TextInput
+            secureTextEntry={true}
+            style={{ color: "white" }}
+            placeholderTextColor="gray"
+            onChangeText={(e) => setUser({ ...user, password: e })}
+            placeholder="********"
+          />
+          <Spacer />
+        </View>
+      )}
     </Layout>
   );
 }

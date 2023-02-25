@@ -80,7 +80,7 @@ export default function WriteAReview({
         )}
         <TextInput
           style={styles.textInputTitle}
-          placeholderTextColor="white"
+          placeholderTextColor="gray"
           onChangeText={(e) => setReview({ ...review, title: e })}
           placeholder="Give this bad boy a catchy title"
         />
@@ -96,7 +96,7 @@ export default function WriteAReview({
           style={styles.largeTextInput}
           multiline={true}
           numberOfLines={8}
-          placeholderTextColor="white"
+          placeholderTextColor="gray"
           onChangeText={(e) => setReview({ ...review, description: e })}
           placeholder="Tell us, how was the guinness? Spare no detail!"
         />

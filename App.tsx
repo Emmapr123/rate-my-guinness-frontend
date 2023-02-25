@@ -15,10 +15,11 @@ export default function App() {
     headerStyle: {
       backgroundColor: "white",
     },
-    // headerTintColor: "gold",
     headerTitleStyle: {
       fontWeight: "bold",
     },
+    headerTintColor: "black",
+    headerBackTitleVisible: false,
   } as const;
 
   return (
@@ -38,6 +39,7 @@ export default function App() {
           options={{
             title: "Log in",
             ...navOptions,
+            presentation: "modal",
           }}
         />
         <Stack.Screen
@@ -48,22 +50,20 @@ export default function App() {
             ...navOptions,
           }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Rate my Guinness"
           component={ShowMapView}
           options={{
             title: "Rate my Guinness",
             headerShown: false,
           }}
-        /> */}
+        />
         <Stack.Screen
           name="Restaurant"
           component={RestaurantScreen}
           options={{
             ...navOptions,
-            headerBackTitleVisible: false,
             headerTitle: '',
-            headerTintColor: "black",            
           }}
         />
         <Stack.Screen

@@ -26,6 +26,7 @@ export default function RestaurantScreen({
   const { name, id } = route.params;
 
   const [review, setReview] = useState<Review[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const reviewRef = firebase.firestore().collection("reviews");
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function RestaurantScreen({
           user,
         });
       });
+      setLoading(false);
       setReview(newReviews);
     });
   }, []);
@@ -61,9 +63,11 @@ export default function RestaurantScreen({
       <Text style={styles.header}>{name}</Text>
       <View style={styles.restaurantInformation}>
         <View style={styles.ratingContainer}>
-          {averageRating ? <Text style={{color: 'white'}}>Rating: {averageRating}/10</Text> : undefined}
+          {averageRating ? (
+            <Text style={{ color: "white" }}>Rating: {averageRating}/10</Text>
+          ) : undefined}
         </View>
-        <Text style={{color: 'white'}}>Reviews: {review.length}</Text>
+        <Text style={{ color: "white" }}>Reviews: {review.length}</Text>
       </View>
       <Divider />
       <Text style={styles.textBold}>Reviews</Text>

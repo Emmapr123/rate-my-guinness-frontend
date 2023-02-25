@@ -6,7 +6,9 @@ export const styles = StyleSheet.create({
     padding: 8,
     marginVertical: 10,
     borderRadius: 10,
+    minHeight: 75,
     borderColor: "white",
+    justifyContent: 'center'
   },
   account: {
     justifyContent: "space-between",
