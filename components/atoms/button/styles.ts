@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   primaryButton: {
-    backgroundColor: "#f4511e",
+    backgroundColor: "gold",
     height: 50,
     flex: 1,
     alignItems: "center",
@@ -10,39 +10,39 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     display: "flex",
     alignSelf: "center",
-    width: '100%'
-    // paddingVertical: 8,
-    // paddingHorizontal: 32,
+    width: '100%',
+    maxHeight: 72
   },
   primaryButtonTextMedium: {
-    color: "white",
+    color: "black",
     fontSize: 25,
+    fontWeight: "600"
   },
   primaryButtonTextSmall: {
-    color: "white",
+    color: "black",
     fontSize: 16,
   },
   secondaryButton: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     flex: 1,
     height: 50,
     justifyContent: "center",
     borderRadius: 15,
     display: "flex",
     alignSelf: "center",
-    borderColor: "#f4511e",
-    borderWidth: 0.5,
+    borderColor: "gold",
+    borderWidth: 5,
     alignItems: "center",
-    width: '100%'
-    // paddingVertical: 8,
-    // paddingHorizontal: 32,
+    width: '100%',
+    maxHeight: 72
   },
   secondaryButtonTextMedium: {
-    color: "#f4511e",
+    color: "gold",
     fontSize: 25,
+    fontWeight: "600"
   },
   secondaryButtonTextSmall: {
-    color: "#f4511e",
+    color: "gold",
     fontSize: 16,
   },
 });

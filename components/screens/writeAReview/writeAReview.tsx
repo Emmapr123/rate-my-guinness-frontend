@@ -4,29 +4,48 @@ import StyledButton from "../../atoms/button/button";
 import RatingIconArray from "../../molecules/ratingIconArray/ratingIconArray";
 import Layout from "../../templates/layout/layout";
 import { styles } from "./styles";
-import { ValidationErrorType } from "./types";
+import { CreateReview, ValidationErrorType } from "./types";
 import { validateForm } from "./validation";
+import { firebase } from "../../../firebase";
 
-export default function WriteAReview({ navigation }: { navigation: any }) {
+export default function WriteAReview({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) {
+  const { id, name } = route.params;
   const arr = Array.from({ length: 10 }, (_, index) => index + 1);
+  const [review, setReview] = useState<CreateReview>({});
   const [rating, setRating] = useState(0);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     ratingError: undefined,
     titleError: undefined,
     descriptionError: undefined,
   });
 
+  const reviewRef = firebase.firestore().collection("reviews");
+
   const validateAndSave = () => {
-    const validation = validateForm(rating, title, description);
+    const validation = validateForm(
+      rating,
+      review.title,
+      review.description
+    );
 
     if (
       !validation.ratingError &&
       !validation.titleError &&
       !validation.descriptionError
     ) {
-      navigation.navigate("Restaurant")
+      reviewRef.add({
+        ...review,
+        rating,
+        user: firebase.auth().currentUser?.uid,
+        pubId: id,
+      });
+      navigation.navigate("Restaurant", { id, name });
     } else {
       setFormValidation(validation);
     }
@@ -38,7 +57,7 @@ export default function WriteAReview({ navigation }: { navigation: any }) {
         <>
           <StyledButton
             title="cancel"
-            onPress={() => navigation.navigate("Restaurant")}
+            onPress={() => navigation.navigate("Restaurant", { id, name })}
             variant={"secondary"}
           />
           <View style={{ width: 15 }} />
@@ -61,7 +80,8 @@ export default function WriteAReview({ navigation }: { navigation: any }) {
         )}
         <TextInput
           style={styles.textInputTitle}
-          onChangeText={(e) => setTitle(e)}
+          placeholderTextColor="gray"
+          onChangeText={(e) => setReview({ ...review, title: e })}
           placeholder="Give this bad boy a catchy title"
         />
       </View>
@@ -76,7 +96,8 @@ export default function WriteAReview({ navigation }: { navigation: any }) {
           style={styles.largeTextInput}
           multiline={true}
           numberOfLines={8}
-          onChangeText={setDescription}
+          placeholderTextColor="gray"
+          onChangeText={(e) => setReview({ ...review, description: e })}
           placeholder="Tell us, how was the guinness? Spare no detail!"
         />
       </View>

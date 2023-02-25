@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, Image } from "react-native";
+import PintSVG from "../../atoms/pintSVG/pintSVG";
 import { styles } from "./styles";
 
 const emptyIcon = require("../../../assets/empty-pint.png");
@@ -21,9 +22,8 @@ export default function RatingIconArray({
           <TouchableOpacity
             key={index}
             onPress={() => setRating(i)}
-            style={{ width: "9%", paddingBottom: 16 }}
           >
-            <Image source={rating >= i ? fullIcon : emptyIcon} />
+            <PintSVG height={60} width={60} color={rating >= i ? 'gold' : 'white'} />
           </TouchableOpacity>
         );
       })}

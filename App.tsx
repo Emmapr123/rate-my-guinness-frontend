@@ -5,53 +5,77 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RestaurantScreen from "./components/screens/restaurantScreen/restaurantScreen";
 import WriteAReview from "./components/screens/writeAReview/writeAReview";
 import LoginScreen from "./components/screens/login/login";
+import { SignUpWithEmail } from "./components/screens/signUpWithEmail/signUpWithEmail";
+import ContinueWithEmail from "./components/screens/continueWithEmail/continueWithEmail";
 
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
   const navOptions = {
     headerStyle: {
-      backgroundColor: "#f4511e",
+      backgroundColor: "white",
     },
-    headerTintColor: "#fff",
     headerTitleStyle: {
       fontWeight: "bold",
     },
+    headerTintColor: "black",
+    headerBackTitleVisible: false,
   } as const;
 
-  if (!loggedIn) {
-    return <LoginScreen {...{ setLoggedIn }} />;
-  } else {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Rate my Guinness"
-            component={ShowMapView}
-            options={{
-              title: "Rate my Guinness",
-              ...navOptions,
-            }}
-          />
-          <Stack.Screen
-            name="Restaurant"
-            component={RestaurantScreen}
-            options={{
-              ...navOptions,
-              headerBackTitleVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="Write a review"
-            component={WriteAReview}
-            options={{
-              title: "Write a review",
-              ...navOptions,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            title: "Login",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="continueWithEmail"
+          component={ContinueWithEmail}
+          options={{
+            title: "Log in",
+            ...navOptions,
+            presentation: "modal",
+          }}
+        />
+        <Stack.Screen
+          name="signUpWithEmail"
+          component={SignUpWithEmail}
+          options={{
+            title: "Sign up",
+            ...navOptions,
+          }}
+        />
+        <Stack.Screen
+          name="Rate my Guinness"
+          component={ShowMapView}
+          options={{
+            title: "Rate my Guinness",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Restaurant"
+          component={RestaurantScreen}
+          options={{
+            ...navOptions,
+            headerTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name="Write a review"
+          component={WriteAReview}
+          options={{
+            title: "Write a review",
+            ...navOptions,
+            presentation: "modal",
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
