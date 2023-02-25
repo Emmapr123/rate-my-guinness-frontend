@@ -3,9 +3,6 @@ import { TouchableOpacity, View, Image } from "react-native";
 import PintSVG from "../../atoms/pintSVG/pintSVG";
 import { styles } from "./styles";
 
-const emptyIcon = require("../../../assets/empty-pint.png");
-const fullIcon = require("../../../assets/full-pint.png");
-
 export default function RatingIconArray({
   arr,
   setRating,

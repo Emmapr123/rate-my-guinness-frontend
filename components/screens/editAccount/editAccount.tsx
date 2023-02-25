@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { View, Text, TextInput, ActivityIndicator } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
 import Layout from "../../templates/layout/layout";
 import { User, ValidationErrorType } from "../signUpWithEmail/types";
 import { firebase } from "../../../firebase";
+import { UserContext } from "../../../App";
 
 export default function EditAccount({ navigation }: { navigation: any }) {
+  // @ts-ignore
+  const { signOut } = useContext(UserContext);
   const [user, setUser] = useState<User>({});
   const [loading, setLoading] = useState(false);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
@@ -46,9 +49,27 @@ export default function EditAccount({ navigation }: { navigation: any }) {
     }
   };
 
+  const deleteUser = () => {
+    setLoading(true);
+    userRef.doc(user.id).delete();
+    firebase.auth().currentUser?.delete();
+    signOut();
+  };
+
   return (
     <Layout
-      footer={<StyledButton title="Save" onPress={() => validateAndSave()} />}
+      footer={
+        <>
+          <StyledButton title="Save" onPress={() => validateAndSave()} />
+          <View style={{ width: 15 }} />
+          <StyledButton
+            title="Delete account"
+            variant="secondary"
+            fontVariant="small"
+            onPress={() => deleteUser()}
+          />
+        </>
+      }
     >
       {loading ? (
         <ActivityIndicator size="large" color="gold" />

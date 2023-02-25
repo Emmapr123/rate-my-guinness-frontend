@@ -47,8 +47,7 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
         // @ts-ignore
         .createUserWithEmailAndPassword(user.email, user.password)
         .then((userCredential) => {
-          userRef.add({
-            id: userCredential.user?.uid,
+          userRef.doc(userCredential.user?.uid).set({
             username: user.username,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           });

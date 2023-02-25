@@ -6,7 +6,7 @@ export default function IconButton({
   navigate,
 }: {
   icon: React.ReactNode;
-  styles: any;
+  styles?: any;
   navigate: any;
 }) {
   return (
