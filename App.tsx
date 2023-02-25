@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ShowMapView from "./components/templates/mapView/mapView";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -9,6 +9,7 @@ import { SignUpWithEmail } from "./components/screens/signUpWithEmail/signUpWith
 import ContinueWithEmail from "./components/screens/continueWithEmail/continueWithEmail";
 import * as SecureStore from "expo-secure-store";
 import AccountScreen from "./components/screens/accountScreen/accountScreen";
+import EditAccount from "./components/screens/editAccount/editAccount";
 
 const Stack = createStackNavigator();
 // @ts-ignore
@@ -150,6 +151,15 @@ export default function App() {
                 component={AccountScreen}
                 options={{
                   title: "Account",
+                  ...navOptions,
+                  presentation: "modal",
+                }}
+              />
+              <Stack.Screen
+                name="Edit account"
+                component={EditAccount}
+                options={{
+                  title: "Edit account",
                   ...navOptions,
                   presentation: "modal",
                 }}

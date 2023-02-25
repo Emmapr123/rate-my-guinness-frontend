@@ -5,7 +5,7 @@ import Layout from "../../templates/layout/layout";
 import { firebase } from "../../../firebase";
 import { ActivityIndicator } from "react-native";
 
-export default function AccountScreen() {
+export default function AccountScreen({ navigation }: { navigation: any }) {
   // @ts-ignore
   const { signOut } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -25,7 +25,15 @@ export default function AccountScreen() {
   };
   return (
     <Layout footer={<StyledButton title="Log out" onPress={() => logOut()} />}>
-      {loading && <ActivityIndicator size="large" color="gold" />}
+      {loading ? (
+        <ActivityIndicator size="large" color="gold" />
+      ) : (
+        <StyledButton
+          title="Edit account"
+          onPress={() => navigation.navigate("Edit account")}
+          variant="secondary"
+        />
+      )}
     </Layout>
   );
 }
