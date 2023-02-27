@@ -39,6 +39,11 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
         .auth()
         // @ts-ignore
         .signInWithEmailAndPassword(user.email, user.password)
+        .then((userCredential) => {
+          setLoading(false);
+          signIn(userCredential);
+          navigation.navigate("Rate my Guinness");
+        })
         .catch((error) => {
           modalWarning =
             error.code === "auth/user-not-found"
@@ -49,6 +54,7 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
           setModalOpen(true);
         });
       signIn(firebase.auth().currentUser?.uid);
+      navigation.navigate("Rate my Guinness");
     } else {
       setFormValidation(validation);
     }

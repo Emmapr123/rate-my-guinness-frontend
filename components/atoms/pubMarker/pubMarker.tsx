@@ -19,9 +19,9 @@ export default function PubMarker({
         navigation.navigate("Restaurant", {
           name: pub.name,
           id: pub.id,
+          location: pub.location,
         })
       }
-      style={{ backgroundColor: "black" }}
     />
   );
 }

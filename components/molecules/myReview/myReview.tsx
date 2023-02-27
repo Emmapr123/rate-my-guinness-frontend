@@ -7,6 +7,7 @@ import { Review } from "../../screens/restaurantScreen/types";
 import { useEffect, useState } from "react";
 import { styles } from "../readReview/styles";
 import Divider from "../../atoms/divider/divider";
+import { Pub } from "../../templates/mapView/types";
 
 export default function myReview({
   review,
@@ -17,20 +18,18 @@ export default function myReview({
 }) {
   const pubRef = firebase.firestore().collection("pubs");
   const [loading, setLoading] = useState<boolean>(true);
-  const [pubName, setPubName] = useState<string[]>([]);
+  const [pub, setPub] = useState<Pub>({} as Pub);
   const arr = Array.from({ length: 10 }, (_, index) => index + 1);
 
   useEffect(() => {
     pubRef
       .where(firebase.firestore.FieldPath.documentId(), "==", review.pubId)
       .onSnapshot((querySnapshot) => {
-        const uname: string[] = [];
         querySnapshot.forEach((doc) => {
-          const { name } = doc.data();
+          const { name, location } = doc.data();
           // @ts-ignore
-          uname.push(name);
+          setPub({ name, location });
         });
-        setPubName(uname);
         setLoading(false);
       });
   }, []);
@@ -44,8 +43,9 @@ export default function myReview({
       style={styles.container}
       onPress={() =>
         navigation.navigate("Restaurant", {
-          name: pubName,
+          name: pub.name,
           id: review.pubId,
+          location: pub.location,
         })
       }
     >
@@ -54,7 +54,7 @@ export default function myReview({
       ) : (
         <>
           <View style={styles.account}>
-            <Text style={styles.name}>{pubName}</Text>
+            <Text style={styles.name}>{pub.name}</Text>
             <IconButton
               navigate={() => deleteReview()}
               icon={<BinSVG height={20} width={20} color={"gold"} />}

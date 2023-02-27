@@ -16,7 +16,7 @@ export default function WriteAReview({
   navigation: any;
   route: any;
 }) {
-  const { id, name } = route.params;
+  const { id, name, location } = route.params;
   const arr = Array.from({ length: 10 }, (_, index) => index + 1);
   const [review, setReview] = useState<CreateReview>({});
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ export default function WriteAReview({
           console.log(error);
           setModalOpen(true);
         });
-      navigation.navigate("Restaurant", { id, name });
+      navigation.navigate("Restaurant", { id, name, location });
       setLoading(false);
     } else {
       setFormValidation(validation);
@@ -60,7 +60,7 @@ export default function WriteAReview({
         <>
           <StyledButton
             title="cancel"
-            onPress={() => navigation.navigate("Restaurant", { id, name })}
+            onPress={() => navigation.navigate("Restaurant", { id, name, location })}
             variant={"secondary"}
           />
           <View style={{ width: 15 }} />

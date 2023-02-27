@@ -10,5 +10,6 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  button: { position: "absolute", right: "8%", top: "8%" },
+  account: { position: "absolute", right: "8%", top: "8%" },
+  centre: { position: "absolute", right: "8%", top: "16%" },
 });
