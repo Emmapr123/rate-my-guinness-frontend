@@ -7,6 +7,7 @@ import { styles } from "./styles";
 import { CreateReview, ValidationErrorType } from "./types";
 import { validateForm } from "./validation";
 import { firebase } from "../../../firebase";
+import WarningModal from "../../molecules/modal/warningModal";
 
 export default function WriteAReview({
   navigation,
@@ -20,6 +21,7 @@ export default function WriteAReview({
   const [review, setReview] = useState<CreateReview>({});
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(0);
+  const [modalIsOpen, setModalOpen] = useState(false);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     ratingError: undefined,
     titleError: undefined,
@@ -29,21 +31,22 @@ export default function WriteAReview({
   const reviewRef = firebase.firestore().collection("reviews");
 
   const validateAndSave = () => {
-    const validation = validateForm(rating, review.title, review.description);
+    const validation = validateForm(rating);
 
-    if (
-      !validation.ratingError &&
-      !validation.titleError &&
-      !validation.descriptionError
-    ) {
+    if (!validation.ratingError) {
       setLoading(true);
-      reviewRef.add({
-        ...review,
-        rating,
-        user: firebase.auth().currentUser?.uid,
-        pubId: id,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+      reviewRef
+        .add({
+          ...review,
+          rating,
+          user: firebase.auth().currentUser?.uid,
+          pubId: id,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        .catch((error) => {
+          console.log(error);
+          setModalOpen(true);
+        });
       navigation.navigate("Restaurant", { id, name });
       setLoading(false);
     } else {
@@ -79,9 +82,6 @@ export default function WriteAReview({
           )}
           <View style={styles.textInputContainer}>
             <Text style={styles.textInputTitle}>Title</Text>
-            {formValidation.titleError && (
-              <Text style={{ color: "red" }}>{formValidation.titleError}</Text>
-            )}
             <TextInput
               style={styles.textInputTitle}
               placeholderTextColor="gray"
@@ -91,11 +91,6 @@ export default function WriteAReview({
           </View>
           <View style={styles.textInputContainer}>
             <Text style={styles.textInputTitle}>Description</Text>
-            {formValidation.descriptionError && (
-              <Text style={{ color: "red" }}>
-                {formValidation.descriptionError}
-              </Text>
-            )}
             <TextInput
               style={styles.largeTextInput}
               multiline={true}
@@ -105,6 +100,7 @@ export default function WriteAReview({
               placeholder="Tell us, how was your guinness? Spare no detail!"
             />
           </View>
+          {modalIsOpen && <WarningModal {...{ modalIsOpen, setModalOpen }} />}
         </>
       )}
     </Layout>

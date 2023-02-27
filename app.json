@@ -21,7 +21,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "expo.guinness.frontend",
       "config": {
-        "googleMapsApiKey": "AIzaSyDu_-UEQ_GjMTCEFa31786YzptbsRCSOgs"
+        "googleMapsApiKey": ""
       }
     },
     "android": {

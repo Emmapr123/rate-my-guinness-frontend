@@ -52,7 +52,7 @@ export default function RestaurantScreen({
   review.sort(function (a, b) {
     // Turn your strings into dates, and then subtract them
     // to get a value that is either negative, positive, or zero.
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
 
   return (

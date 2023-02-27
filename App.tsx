@@ -7,9 +7,10 @@ import WriteAReview from "./components/screens/writeAReview/writeAReview";
 import LoginScreen from "./components/screens/login/login";
 import { SignUpWithEmail } from "./components/screens/signUpWithEmail/signUpWithEmail";
 import ContinueWithEmail from "./components/screens/continueWithEmail/continueWithEmail";
-import * as SecureStore from "expo-secure-store";
 import AccountScreen from "./components/screens/accountScreen/accountScreen";
 import EditAccount from "./components/screens/editAccount/editAccount";
+import MyReviewsScreen from "./components/screens/myReviews/myReviews";
+import { firebase } from "./firebase";
 
 const Stack = createStackNavigator();
 // @ts-ignore
@@ -75,7 +76,7 @@ export default function App() {
       let userToken;
 
       try {
-        userToken = await SecureStore.getItemAsync("userToken");
+        userToken = await firebase.auth().currentUser?.uid;
       } catch (e) {
         // Restoring token failed
       }
@@ -162,6 +163,14 @@ export default function App() {
                   title: "Edit account",
                   ...navOptions,
                   presentation: "modal",
+                }}
+              />
+              <Stack.Screen
+                name="My reviews"
+                component={MyReviewsScreen}
+                options={{
+                  title: "My reviews",
+                  ...navOptions,
                 }}
               />
             </>

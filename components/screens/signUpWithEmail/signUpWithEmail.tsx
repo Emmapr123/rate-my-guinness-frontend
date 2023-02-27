@@ -7,6 +7,7 @@ import { validateForm } from "./validateForm";
 import { firebase } from "../../../firebase";
 import { User, ValidationErrorType } from "./types";
 import { UserContext } from "../../../App";
+import WarningModal from "../../molecules/modal/warningModal";
 
 export function SignUpWithEmail({ navigation }: { navigation: any }) {
   // @ts-ignore
@@ -14,6 +15,7 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
 
   const [user, setUser] = useState<User>({});
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [modalIsOpen, setModalOpen] = useState(false);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     nameError: undefined,
     birthdayError: undefined,
@@ -55,6 +57,7 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
         })
         .catch((error) => {
           console.log("emmalog error", error);
+          setModalOpen(true);
         });
     } else {
       setFormValidation(validation);
@@ -66,7 +69,7 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
       footer={<StyledButton title="Save" onPress={() => validateAndSave()} />}
     >
       <Text style={{ fontSize: 32, paddingVertical: 16, color: "gold" }}>
-      Lorcan's app
+        Lorcan's app
       </Text>
       <View style={{ flex: 1 }}>
         <Text
@@ -152,6 +155,12 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           placeholderTextColor="gray"
           style={{ color: "white" }}
         />
+        {modalIsOpen && (
+          <WarningModal
+            setModalOpen={setModalOpen}
+            modalIsOpen={modalIsOpen}
+          />
+        )}
       </View>
     </Layout>
   );

@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     borderWidth: 0.5,
-    padding: 8,
+    padding: 16,
     marginVertical: 10,
     borderRadius: 10,
     minHeight: 75,
@@ -19,13 +19,21 @@ export const styles = StyleSheet.create({
   name: {
     fontWeight: "bold",
     fontSize: 16,
-    color: 'gold'
+    color: 'white'
   },
   title: {
     fontWeight: "bold",
     color: "white",
+    padding: 4
   },
   description: {
     color: "white",
+    padding: 4
   },
+  pints: {
+    width: "60%",
+    display: "flex",
+    flexDirection: "row",
+    paddingVertical: 4,
+  }
 });

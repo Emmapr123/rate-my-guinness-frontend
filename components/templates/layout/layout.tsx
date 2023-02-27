@@ -10,7 +10,7 @@ import { styles } from "./styles";
 export default function Layout({
   children,
   footer,
-}: PropsWithChildren<{ footer: React.ReactNode }>) {
+}: PropsWithChildren<{ footer?: React.ReactNode }>) {
   return (
     <KeyboardAvoidingView
       style={styles.container}

@@ -1,34 +1,36 @@
-import { View, Text, ActivityIndicator } from "react-native";
-import { Review } from "../../screens/restaurantScreen/types";
-import { styles } from "./styles";
-import { firebase } from "../../../firebase";
-import { User } from "../../screens/signUpWithEmail/types";
-import { useEffect, useState } from "react";
-import PintSVG from "../../atoms/pintSVG/pintSVG";
+import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
 import BinSVG from "../../atoms/binSVG/bin";
 import IconButton from "../../atoms/iconButton/iconButton";
-import Spacer from "../../atoms/spacer/spacer";
+import PintSVG from "../../atoms/pintSVG/pintSVG";
+import { firebase } from "../../../firebase";
+import { Review } from "../../screens/restaurantScreen/types";
+import { useEffect, useState } from "react";
+import { styles } from "../readReview/styles";
 import Divider from "../../atoms/divider/divider";
 
-export default function ReadReview({ review }: { review: Review }) {
-  const userRef = firebase.firestore().collection("users");
+export default function myReview({
+  review,
+  navigation,
+}: {
+  review: Review;
+  navigation: any;
+}) {
+  const pubRef = firebase.firestore().collection("pubs");
   const [loading, setLoading] = useState<boolean>(true);
-  const [username, setUsername] = useState<string[]>([]);
+  const [pubName, setPubName] = useState<string[]>([]);
   const arr = Array.from({ length: 10 }, (_, index) => index + 1);
-  const [self, setSelf] = useState<boolean>(false);
 
   useEffect(() => {
-    userRef
-      .where(firebase.firestore.FieldPath.documentId(), "==", review.user)
+    pubRef
+      .where(firebase.firestore.FieldPath.documentId(), "==", review.pubId)
       .onSnapshot((querySnapshot) => {
         const uname: string[] = [];
         querySnapshot.forEach((doc) => {
-          const { username } = doc.data() as User;
+          const { name } = doc.data();
           // @ts-ignore
-          uname.push(username);
-          doc.id === firebase.auth().currentUser?.uid && setSelf(true);
+          uname.push(name);
         });
-        setUsername(uname);
+        setPubName(uname);
         setLoading(false);
       });
   }, []);
@@ -38,22 +40,27 @@ export default function ReadReview({ review }: { review: Review }) {
   };
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() =>
+        navigation.navigate("Restaurant", {
+          name: pubName,
+          id: review.pubId,
+        })
+      }
+    >
       {loading ? (
         <ActivityIndicator color={"gold"} size={"large"} animating={loading} />
       ) : (
         <>
           <View style={styles.account}>
-            <Text style={styles.name}>{username}</Text>
-            {self && (
-              <IconButton
-                navigate={() => deleteReview()}
-                icon={<BinSVG height={20} width={20} color={"gold"} />}
-              />
-            )}
+            <Text style={styles.name}>{pubName}</Text>
+            <IconButton
+              navigate={() => deleteReview()}
+              icon={<BinSVG height={20} width={20} color={"gold"} />}
+            />
           </View>
           <Divider />
-
           <View style={styles.pints}>
             {arr.map((i, index) => {
               return (
@@ -70,6 +77,6 @@ export default function ReadReview({ review }: { review: Review }) {
           <Text style={styles.description}>{review.description}</Text>
         </>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }

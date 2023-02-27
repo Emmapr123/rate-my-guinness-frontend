@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  ActivityIndicator,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
 import Layout from "../../templates/layout/layout";
@@ -8,17 +15,21 @@ import { User } from "../signUpWithEmail/types";
 import { validateForm } from "./validateForm";
 import { ValidationErrorType } from "./types";
 import { UserContext } from "../../../App";
+import WarningModal from "../../molecules/modal/warningModal";
 
 export default function ContinueWithEmail({ navigation }: { navigation: any }) {
   // @ts-ignore
   const { signIn } = React.useContext(UserContext);
   const [user, setUser] = useState<User>({});
   const [loading, setLoading] = useState(false);
+  const [modalIsOpen, setModalOpen] = useState(false);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     emailError: undefined,
     passwordError: undefined,
   });
 
+  let modalWarning =
+    "No account found with that email and password combination. Please try again or create an account.";
   const login = () => {
     const validation = validateForm(user.email, user.password);
 
@@ -28,12 +39,16 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
         .auth()
         // @ts-ignore
         .signInWithEmailAndPassword(user.email, user.password)
-        .then((userCredential) => {
-          signIn(userCredential.user?.uid);
-        })
         .catch((error) => {
-          console.log("error", error);
+          modalWarning =
+            error.code === "auth/user-not-found"
+              ? "No account found with that email address. Please try again or create an account."
+              : "Something went wrong. Please try again.";
+          setLoading(false);
+          setFormValidation({ emailError: "", passwordError: "" });
+          setModalOpen(true);
         });
+      signIn(firebase.auth().currentUser?.uid);
     } else {
       setFormValidation(validation);
     }
@@ -101,6 +116,14 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
             placeholder="********"
           />
           <Spacer />
+          {modalIsOpen && (
+            <WarningModal
+              modalIsOpen={modalIsOpen}
+              setModalOpen={setModalOpen}
+              description={modalWarning}
+              title={"OOOPS!"}
+            />
+          )}
         </View>
       )}
     </Layout>
