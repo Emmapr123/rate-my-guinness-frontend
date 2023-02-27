@@ -15,6 +15,7 @@ export default function EditAccount({ navigation }: { navigation: any }) {
   const [user, setUser] = useState<User>({});
   const [loading, setLoading] = useState(false);
   const [modalIsOpen, setModalOpen] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     nameError: undefined,
     birthdayError: undefined,
@@ -66,6 +67,10 @@ export default function EditAccount({ navigation }: { navigation: any }) {
     }
   };
 
+  const confirmDelete = () => {
+    setDeleteModal(true);
+  };
+
   const deleteUser = () => {
     setLoading(true);
     reviewRef
@@ -86,12 +91,12 @@ export default function EditAccount({ navigation }: { navigation: any }) {
       footer={
         <>
           <StyledButton title="Save" onPress={() => validateAndSave()} />
-          <Spacer direction="vertical" />
+          <Spacer direction="horizontal" />
           <StyledButton
             title="Delete account"
             variant="secondary"
             fontVariant="small"
-            onPress={() => deleteUser()}
+            onPress={() => confirmDelete()}
           />
         </>
       }
@@ -120,6 +125,16 @@ export default function EditAccount({ navigation }: { navigation: any }) {
             <WarningModal
               modalIsOpen={modalIsOpen}
               setModalOpen={setModalOpen}
+            />
+          )}
+          {deleteModal && (
+            <WarningModal
+              modalIsOpen={deleteModal}
+              setModalOpen={setDeleteModal}
+              title="Are you sure you want to delete your account?"
+              description="This action cannot be undone."
+              buttonText="Delete"
+              onPress={() => deleteUser()}
             />
           )}
         </View>

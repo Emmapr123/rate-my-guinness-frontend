@@ -112,12 +112,12 @@ export default function ShowMapView({
       <IconButton
         styles={styles.account}
         navigate={() => navigation.navigate("Account")}
-        icon={<AccountSVG height={50} width={50} color={"black"} />}
+        icon={<AccountSVG />}
       />
       <IconButton
         styles={styles.centre}
         navigate={() => goToMyLocation()}
-        icon={<LocationSVG height={50} width={50} color={"black"} />}
+        icon={<LocationSVG />}
       />
     </View>
   );

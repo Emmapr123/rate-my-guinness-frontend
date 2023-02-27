@@ -1,12 +1,13 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
 
 function LocationSVG(props: any) {
-    const { color, height, width } = props;
+  const { color = "black", height = 50, width = 50 } = props;
+  
   return (
     <Svg
-      width
-      height 
+      width={width}
+      height={height}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +20,7 @@ function LocationSVG(props: any) {
         fill={color}
       />
     </Svg>
-  )
+  );
 }
 
-export default LocationSVG
+export default LocationSVG;

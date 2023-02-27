@@ -5,6 +5,7 @@ import Layout from "../../templates/layout/layout";
 import { firebase } from "../../../firebase";
 import { ActivityIndicator, TouchableOpacity, Text } from "react-native";
 import WarningModal from "../../molecules/modal/warningModal";
+import { styles } from "./styles";
 
 export default function AccountScreen({ navigation }: { navigation: any }) {
   // @ts-ignore
@@ -33,28 +34,10 @@ export default function AccountScreen({ navigation }: { navigation: any }) {
       ) : (
         <>
           <TouchableOpacity onPress={() => navigation.navigate("Edit account")}>
-            <Text
-              style={{
-                color: "gold",
-                fontSize: 16,
-                textDecorationLine: "underline",
-                padding: 8,
-              }}
-            >
-              Edit account
-            </Text>
+            <Text style={styles.linkText}>Edit account</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("My reviews")}>
-            <Text
-              style={{
-                color: "gold",
-                fontSize: 16,
-                textDecorationLine: "underline",
-                padding: 8,
-              }}
-            >
-              My reviews
-            </Text>
+            <Text style={styles.linkText}>My reviews</Text>
           </TouchableOpacity>
           {modalIsOpen && (
             <WarningModal

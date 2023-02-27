@@ -1,17 +1,22 @@
 import { Modal, TouchableOpacity, View, Text } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
+import { styles } from "./styles";
 
 export default function WarningModal({
   modalIsOpen,
   setModalOpen,
   description = "Something went wrong. Please try again.",
-  title = "Oh no!"
+  title = "Oh no!",
+  buttonText = "Close",
+  onPress,
 }: {
   modalIsOpen: boolean;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   description?: string;
   title?: string;
+  buttonText?: string;
+  onPress?: any;
 }) {
   return (
     <Modal
@@ -22,28 +27,18 @@ export default function WarningModal({
       }}
     >
       <TouchableOpacity
-        style={{
-          backgroundColor: "black",
-          flex: 1,
-          opacity: 0.5,
-        }}
+        style={styles.container}
         onPress={() => setModalOpen(false)}
       />
-      <View
-        style={{
-          width: "100%",
-          backgroundColor: "white",
-          top: "40%",
-          position: "absolute",
-          padding: 16,
-          borderRadius: 16,
-        }}
-      >
-        <Text style={{ fontWeight: "bold", fontSize: 16 }}>{title}</Text>
+      <View style={styles.modalBox}>
+        <Text style={styles.title}>{title}</Text>
         <Spacer />
         <Text>{description}</Text>
         <Spacer />
-        <StyledButton title="Close" onPress={() => setModalOpen(false)} />
+        <StyledButton
+          title={buttonText}
+          onPress={onPress ? onPress : () => setModalOpen(false) }
+        />
       </View>
     </Modal>
   );

@@ -2,7 +2,7 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
 function AccountSVG(props: any) {
-  const { color, height, width } = props;
+  const { color = 'black', height = 50, width = 50 } = props;
 
   return (
     <Svg

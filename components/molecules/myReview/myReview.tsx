@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { styles } from "../readReview/styles";
 import Divider from "../../atoms/divider/divider";
 import { Pub } from "../../templates/mapView/types";
+import WarningModal from "../modal/warningModal";
 
 export default function myReview({
   review,
@@ -20,6 +21,7 @@ export default function myReview({
   const [loading, setLoading] = useState<boolean>(true);
   const [pub, setPub] = useState<Pub>({} as Pub);
   const arr = Array.from({ length: 10 }, (_, index) => index + 1);
+  const [modalIsOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     pubRef
@@ -35,6 +37,7 @@ export default function myReview({
   }, []);
 
   const deleteReview = () => {
+    setModalOpen(false);
     firebase.firestore().collection("reviews").doc(review.id).delete();
   };
 
@@ -55,10 +58,7 @@ export default function myReview({
         <>
           <View style={styles.account}>
             <Text style={styles.name}>{pub.name}</Text>
-            <IconButton
-              navigate={() => deleteReview()}
-              icon={<BinSVG height={20} width={20} color={"gold"} />}
-            />
+            <IconButton navigate={() => setModalOpen(true)} icon={<BinSVG />} />
           </View>
           <Divider />
           <View style={styles.pints}>
@@ -66,8 +66,6 @@ export default function myReview({
               return (
                 <PintSVG
                   key={index}
-                  height={20}
-                  width={20}
                   color={review.rating >= i ? "gold" : "white"}
                 />
               );
@@ -75,6 +73,16 @@ export default function myReview({
           </View>
           <Text style={styles.title}>{review.title}</Text>
           <Text style={styles.description}>{review.description}</Text>
+          {modalIsOpen && (
+            <WarningModal
+              modalIsOpen={modalIsOpen}
+              setModalOpen={setModalOpen}
+              title={"Are you sure you want to delete this review?"}
+              description={"This action cannot be undone."}
+              buttonText={"Delete"}
+              onPress={() => deleteReview()}
+            />
+          )}
         </>
       )}
     </TouchableOpacity>

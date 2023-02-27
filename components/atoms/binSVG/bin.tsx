@@ -2,7 +2,7 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
 function BinSVG(props: any) {
-  const { width, height, color } = props;
+  const { width = 20, height = 20, color = "gold" } = props;
 
   return (
     <Svg

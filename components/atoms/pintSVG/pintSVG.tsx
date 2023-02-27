@@ -2,7 +2,8 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
 function PintSVG(props: any) {
-    const { height, width, color } = props;
+  const { height = 20, width = 20, color = "gold" } = props;
+  
   return (
     <Svg
       width={height}
