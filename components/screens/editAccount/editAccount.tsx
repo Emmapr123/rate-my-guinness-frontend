@@ -7,6 +7,7 @@ import { User, ValidationErrorType } from "../signUpWithEmail/types";
 import { firebase } from "../../../firebase";
 import { UserContext } from "../../../App";
 import WarningModal from "../../molecules/modal/warningModal";
+import { styles } from "./styles";
 
 export default function EditAccount({ navigation }: { navigation: any }) {
   // @ts-ignore
@@ -23,6 +24,7 @@ export default function EditAccount({ navigation }: { navigation: any }) {
   });
 
   const userRef = firebase.firestore().collection("users");
+  const reviewRef = firebase.firestore().collection("reviews");
 
   useEffect(() => {
     userRef
@@ -66,6 +68,14 @@ export default function EditAccount({ navigation }: { navigation: any }) {
 
   const deleteUser = () => {
     setLoading(true);
+    reviewRef
+      .where("userId", "==", firebase.auth().currentUser?.uid)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          reviewRef.doc(doc.id).delete();
+        });
+      });
     userRef.doc(firebase.auth().currentUser?.uid).delete();
     firebase.auth().currentUser?.delete();
     signOut();
@@ -76,7 +86,7 @@ export default function EditAccount({ navigation }: { navigation: any }) {
       footer={
         <>
           <StyledButton title="Save" onPress={() => validateAndSave()} />
-          <View style={{ width: 15 }} />
+          <Spacer direction="vertical" />
           <StyledButton
             title="Delete account"
             variant="secondary"
@@ -89,14 +99,10 @@ export default function EditAccount({ navigation }: { navigation: any }) {
       {loading ? (
         <ActivityIndicator size="large" color="gold" />
       ) : (
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
-          >
-            Name
-          </Text>
+        <View style={styles.container}>
+          <Text style={styles.inputTitle}>Name</Text>
           {formValidation.nameError && (
-            <Text style={{ color: "red" }}>{formValidation.nameError}</Text>
+            <Text style={styles.errorText}>{formValidation.nameError}</Text>
           )}
           <TextInput
             onChangeText={(e) =>
@@ -106,7 +112,7 @@ export default function EditAccount({ navigation }: { navigation: any }) {
               })
             }
             placeholderTextColor="gray"
-            style={{ color: "white" }}
+            style={styles.textInput}
             value={user.username}
           />
           <Spacer />
