@@ -11,7 +11,6 @@ import AccountScreen from "./components/screens/accountScreen/accountScreen";
 import EditAccount from "./components/screens/editAccount/editAccount";
 import MyReviewsScreen from "./components/screens/myReviews/myReviews";
 import { firebase } from "./firebase";
-import Directions from "./components/screens/directionsScreen/directionsScreen";
 
 const Stack = createStackNavigator();
 // @ts-ignore
@@ -171,14 +170,6 @@ export default function App() {
                 component={MyReviewsScreen}
                 options={{
                   title: "My reviews",
-                  ...navOptions,
-                }}
-              />
-              <Stack.Screen
-                name="Directions"
-                component={Directions}
-                options={{
-                  title: "Directions",
                   ...navOptions,
                 }}
               />

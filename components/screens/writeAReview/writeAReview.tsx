@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, TextInput, ActivityIndicator } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import RatingIconArray from "../../molecules/ratingIconArray/ratingIconArray";
@@ -22,6 +22,7 @@ export default function WriteAReview({
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(0);
   const [modalIsOpen, setModalOpen] = useState(false);
+  const [modalError, setModalError] = useState<string | undefined>(undefined);
   const [formValidation, setFormValidation] = useState<ValidationErrorType>({
     ratingError: undefined,
     titleError: undefined,
@@ -41,7 +42,7 @@ export default function WriteAReview({
           rating,
           user: firebase.auth().currentUser?.uid,
           pubId: id,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdAt: new Date().toDateString(),
         })
         .catch((error) => {
           console.log(error);
@@ -54,13 +55,31 @@ export default function WriteAReview({
     }
   };
 
+  useEffect(() => {
+    reviewRef
+      .where("user", "==", firebase.auth().currentUser?.uid)
+      .where("pubId", "==", id)
+      .get()
+      .then((querySnapshot) =>
+        querySnapshot.docs.map((doc) => {
+          const { createdAt } = doc.data();
+          if (createdAt >= new Date().toDateString() === true) {
+            setModalError("You can only review a pub once a day");
+            setModalOpen(true);
+          }
+        })
+      );
+  }, []);
+
   return (
     <Layout
       footer={
         <>
           <StyledButton
             title="cancel"
-            onPress={() => navigation.navigate("Restaurant", { id, name, location })}
+            onPress={() =>
+              navigation.navigate("Restaurant", { id, name, location })
+            }
             variant={"secondary"}
           />
           <View style={{ width: 15 }} />
@@ -100,7 +119,16 @@ export default function WriteAReview({
               placeholder="Tell us, how was your guinness? Spare no detail!"
             />
           </View>
-          {modalIsOpen && <WarningModal {...{ modalIsOpen, setModalOpen }} />}
+          {modalIsOpen && (
+            <WarningModal
+              {...{ modalIsOpen, setModalOpen }}
+              onPress={() =>
+                navigation.navigate("Restaurant", { id, name, location })
+              }
+              title={modalError}
+              description={modalError ? "" : undefined}
+            />
+          )}
         </>
       )}
     </Layout>

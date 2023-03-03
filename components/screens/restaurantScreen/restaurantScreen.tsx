@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import Divider from "../../atoms/divider/divider";
 import ReadReview from "../../molecules/readReview/readReviewComponent";
 import Layout from "../../templates/layout/layout";
@@ -56,13 +56,6 @@ export default function RestaurantScreen({
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
 
-  const directionsOrFocusOnMap = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    status !== "granted"
-      ? navigation.navigate("Rate my Guinness", { zoomIntoLocation: location })
-      : navigation.navigate("Directions", { id, name, location });
-  };
-
   return (
     <Layout
       footer={
@@ -76,7 +69,13 @@ export default function RestaurantScreen({
     >
       <>
         <Text style={styles.header}>{name}</Text>
-        <TouchableOpacity onPress={() => directionsOrFocusOnMap()}>
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL(
+              `http://www.google.com/maps/place/${location.latitude},${location.longitude}`
+            )
+          }
+        >
           <Text style={{ color: "gold" }}>{address}</Text>
         </TouchableOpacity>
         <View style={styles.restaurantInformation}>

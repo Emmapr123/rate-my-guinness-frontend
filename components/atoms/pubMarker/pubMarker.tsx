@@ -10,6 +10,7 @@ export default function PubMarker({
 }) {
   return (
     <Marker
+      pinColor="black"
       title={pub.name}
       coordinate={{
         latitude: pub.location.latitude,
