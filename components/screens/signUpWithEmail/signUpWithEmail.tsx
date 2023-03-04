@@ -1,13 +1,15 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TextInput } from "react-native";
 import StyledButton from "../../atoms/button/button";
 import Spacer from "../../atoms/spacer/spacer";
 import Layout from "../../templates/layout/layout";
-import { validateForm } from "./validateForm";
+import { subtractYears, validateForm } from "./validateForm";
 import { firebase } from "../../../firebase";
 import { User, ValidationErrorType } from "./types";
 import { UserContext } from "../../../App";
 import WarningModal from "../../molecules/modal/warningModal";
+import DatePicker from "react-native-datepicker";
+import { styles } from "./styles";
 
 export function SignUpWithEmail({ navigation }: { navigation: any }) {
   // @ts-ignore
@@ -68,17 +70,11 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
     <Layout
       footer={<StyledButton title="Save" onPress={() => validateAndSave()} />}
     >
-      <Text style={{ fontSize: 32, paddingVertical: 16, color: "gold" }}>
-        Lorcan's app
-      </Text>
-      <View style={{ flex: 1 }}>
-        <Text
-          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
-        >
-          Name
-        </Text>
+      <Text style={styles.title}>Lorcan's app</Text>
+      <View style={styles.container}>
+        <Text style={styles.inputLabel}>Name</Text>
         {formValidation.nameError && (
-          <Text style={{ color: "red" }}>{formValidation.nameError}</Text>
+          <Text style={styles.error}>{formValidation.nameError}</Text>
         )}
         <TextInput
           onChangeText={(e) =>
@@ -88,63 +84,63 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
             })
           }
           placeholderTextColor="gray"
-          style={{ color: "white" }}
+          style={styles.textInput}
           placeholder="John Doe"
         />
         <Spacer />
-        <Text
-          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
-        >
-          Birthday
-        </Text>
+        <Text style={styles.inputLabel}>Birthday</Text>
         {formValidation.birthdayError && (
-          <Text style={{ color: "red" }}>{formValidation.birthdayError}</Text>
+          <Text style={styles.error}>{formValidation.birthdayError}</Text>
         )}
-        <TextInput
-          onChangeText={(e) => setUser({ ...user, birthday: e })}
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor="gray"
-          style={{ color: "white" }}
+        <DatePicker
+          style={{ width: "100%" }}
+          date={user.birthday}
+          mode="date"
+          placeholder="select date"
+          format="DD/MM/YYYY"
+          minDate={subtractYears(new Date(), 100)}
+          maxDate={subtractYears(new Date(), 18)}
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: styles.dateIcon,
+            dateInput: styles.dateInput,
+            placeholderText: styles.placeholderText,
+            dateText: styles.dateText,
+            btnTextConfirm: styles.btnText,
+            btnTextCancel: styles.btnText,
+          }}
+          onDateChange={(date) => {
+            setUser({ ...user, birthday: date });
+          }}
         />
         <Spacer />
-        <Text
-          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
-        >
-          Email
-        </Text>
+        <Text style={styles.inputLabel}>Email</Text>
         {formValidation.emailError && (
-          <Text style={{ color: "red" }}>{formValidation.emailError}</Text>
+          <Text style={styles.error}>{formValidation.emailError}</Text>
         )}
         <TextInput
           onChangeText={(e) => setUser({ ...user, email: e })}
           placeholder="example@email.com"
           placeholderTextColor="gray"
-          style={{ color: "white" }}
+          style={styles.textInput}
         />
         <Spacer />
-        <Text
-          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
-        >
-          Password
-        </Text>
+        <Text style={styles.inputLabel}>Password</Text>
         {formValidation.passwordError && (
-          <Text style={{ color: "red" }}>{formValidation.passwordError}</Text>
+          <Text style={styles.error}>{formValidation.passwordError}</Text>
         )}
         <TextInput
           secureTextEntry={true}
           onChangeText={(e) => setUser({ ...user, password: e })}
           placeholder="********"
           placeholderTextColor="gray"
-          style={{ color: "white" }}
+          style={styles.textInput}
         />
         <Spacer />
-        <Text
-          style={{ fontWeight: "bold", paddingVertical: 8, color: "white" }}
-        >
-          Confirm Password
-        </Text>
+        <Text style={styles.inputLabel}>Confirm Password</Text>
         {formValidation.confirmPasswordError && (
-          <Text style={{ color: "red" }}>
+          <Text style={styles.error}>
             {formValidation.confirmPasswordError}
           </Text>
         )}
@@ -153,13 +149,10 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           onChangeText={(e) => setConfirmPassword(e)}
           placeholder="*********"
           placeholderTextColor="gray"
-          style={{ color: "white" }}
+          style={styles.textInput}
         />
         {modalIsOpen && (
-          <WarningModal
-            setModalOpen={setModalOpen}
-            modalIsOpen={modalIsOpen}
-          />
+          <WarningModal setModalOpen={setModalOpen} modalIsOpen={modalIsOpen} />
         )}
       </View>
     </Layout>

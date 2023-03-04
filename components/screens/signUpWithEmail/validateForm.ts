@@ -1,4 +1,4 @@
-function subtractYears(date: Date, years: number) {
+export function subtractYears(date: Date, years: number) {
   date.setFullYear(date.getFullYear() - years);
   return date;
 }
@@ -22,7 +22,7 @@ export const validateForm = (
   if (!birthday) {
     birthdayError = "Please enter a birthday";
   }
-  if (birthday && new Date(birthday) > subtractYears(new Date(), 18)) {
+  if (birthday && new Date(birthday) >= subtractYears(new Date(), 18)) {
     birthdayError = "You must be 18 or older to use this app";
   }
   // TODO: Add email validation regex
