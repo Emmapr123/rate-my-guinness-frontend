@@ -12,17 +12,15 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/9c39f3f0-1075-4015-a057-8d88bb3bd26c"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "expo.guinness.frontend",
-      "config": {
-        "googleMapsApiKey": ""
-      }
+      "bundleIdentifier": "expo.guinness.frontend"
     },
     "android": {
       "adaptiveIcon": {
@@ -37,6 +35,9 @@
       "eas": {
         "projectId": "9c39f3f0-1075-4015-a057-8d88bb3bd26c"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

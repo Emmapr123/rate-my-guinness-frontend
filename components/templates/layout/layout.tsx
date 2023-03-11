@@ -15,7 +15,7 @@ export default function Layout({
     <KeyboardAvoidingView
       style={styles.container}
       behavior={"padding"}
-      keyboardVerticalOffset={55}
+      keyboardVerticalOffset={110}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
         <ScrollView>{children}</ScrollView>

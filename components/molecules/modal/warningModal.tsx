@@ -33,10 +33,11 @@ export default function WarningModal({
       <View style={styles.modalBox}>
         <Text style={styles.title}>{title}</Text>
         <Spacer />
-        <Text>{description}</Text>
+        <Text style={styles.description}>{description}</Text>
         <Spacer />
         <StyledButton
           title={buttonText}
+          fontVariant={'small'}
           onPress={onPress ? onPress : () => setModalOpen(false) }
         />
       </View>

@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
   primaryButtonTextSmall: {
     color: "black",
     fontSize: 16,
+    fontWeight: 'bold'
   },
   secondaryButton: {
     backgroundColor: "black",

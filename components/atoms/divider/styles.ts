@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     divider: {
       height: 0.5,
       backgroundColor: "white",
-      width: "95%",
+      width: "100%",
       alignSelf: "center",
       margin: 10,
     },

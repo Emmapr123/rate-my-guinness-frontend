@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     borderColor: "white",
     alignItems: "flex-start",
     borderWidth: 0,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
   },
   placeholderText: {
     fontSize: 17,

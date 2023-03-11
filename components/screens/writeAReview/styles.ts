@@ -15,11 +15,14 @@ export const styles = StyleSheet.create({
   largeTextInput: {
     fontSize: 16,
     height: 100,
-    color: 'white'
+    color: 'white',
+    fontWeight: 'bold',
   },
   textInputTitle: {
     fontSize: 16,
-    color: 'white'
+    color: 'white',
+    fontWeight: 'bold',
+    paddingVertical: 8
   },
   buttonContainer: {
     display: "flex",

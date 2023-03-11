@@ -56,6 +56,7 @@ export default function App() {
     },
     headerTintColor: "black",
     headerBackTitleVisible: false,
+    presentation: "modal",
   } as const;
 
   const authContext = React.useMemo(

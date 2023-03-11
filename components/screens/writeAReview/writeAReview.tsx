@@ -95,6 +95,7 @@ export default function WriteAReview({
         <ActivityIndicator color={"gold"} size="large" />
       ) : (
         <>
+        <Text style={styles.textInputTitle}>Rating</Text>
           <RatingIconArray {...{ rating, setRating, arr }} />
           {formValidation.ratingError && (
             <Text style={{ color: "red" }}>{formValidation.ratingError}</Text>

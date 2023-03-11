@@ -90,14 +90,13 @@ export default function EditAccount({ navigation }: { navigation: any }) {
     <Layout
       footer={
         <>
-          <StyledButton title="Save" onPress={() => validateAndSave()} />
-          <Spacer direction="horizontal" />
           <StyledButton
-            title="Delete account"
+            title="Delete"
             variant="secondary"
-            fontVariant="small"
             onPress={() => confirmDelete()}
           />
+          <Spacer direction="horizontal" />
+          <StyledButton title="Save" onPress={() => validateAndSave()} />
         </>
       }
     >
@@ -105,7 +104,7 @@ export default function EditAccount({ navigation }: { navigation: any }) {
         <ActivityIndicator size="large" color="gold" />
       ) : (
         <View style={styles.container}>
-          <Text style={styles.inputTitle}>Name</Text>
+          <Text style={styles.inputTitle}>Username</Text>
           {formValidation.nameError && (
             <Text style={styles.errorText}>{formValidation.nameError}</Text>
           )}

@@ -63,20 +63,21 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
   return (
     <Layout
       footer={
-        <>
+        <View style={{minHeight: 100, display: 'flex', width: '100%'}}>
           <StyledButton
             title="Log in"
-            fontVariant="small"
             onPress={() => login()}
           />
-          <View style={{ width: 15 }} />
-          <StyledButton
-            title="Create account"
-            variant="secondary"
-            fontVariant="small"
+          <Spacer />
+          <TouchableOpacity
             onPress={() => navigation.navigate("signUpWithEmail")}
-          />
-        </>
+            style={{ alignItems: "center" }}
+          >
+            <Text style={{ color: "gold", textDecorationLine: "underline" }}>
+              Don't have an account? Create one here
+            </Text>
+          </TouchableOpacity>
+        </View>
       }
     >
       <Text style={{ fontSize: 32, paddingVertical: 16, color: "gold" }}>
@@ -121,6 +122,8 @@ export default function ContinueWithEmail({ navigation }: { navigation: any }) {
             onChangeText={(e) => setUser({ ...user, password: e })}
             placeholder="********"
           />
+          <Spacer />
+
           <Spacer />
           {modalIsOpen && (
             <WarningModal

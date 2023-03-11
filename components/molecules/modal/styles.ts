@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     opacity: 0.5,
   },
   modalBox: {
-    width: "100%",
+    width: "90%",
+    alignSelf: 'center',
     backgroundColor: "white",
     top: "40%",
     position: "absolute",
@@ -16,6 +17,9 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 24,
   },
+  description: {
+    fontSize: 18,
+  }
 });

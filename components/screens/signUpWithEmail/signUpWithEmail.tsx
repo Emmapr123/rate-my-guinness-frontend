@@ -151,6 +151,7 @@ export function SignUpWithEmail({ navigation }: { navigation: any }) {
           placeholderTextColor="gray"
           style={styles.textInput}
         />
+        <Spacer />
         {modalIsOpen && (
           <WarningModal setModalOpen={setModalOpen} modalIsOpen={modalIsOpen} />
         )}
